@@ -10,7 +10,8 @@ void Fac::writesol()
 {
 	double fin = (double)(Known::arch_et - Known::st) / CLOCKS_PER_SEC;
 	Known::runtime = (double)(Known::et - Known::st) / CLOCKS_PER_SEC;
-	ofstream ofile(Known::pars_wl["ofn"], ios::app); //以追加的方式写入
+	string filename = Known::pars_wl["ofn"] + Known::pars_wl["job_id"] + Known::pars_wl["al_name"]+"arch_" + Known::pars_wl["fn"];
+	ofstream ofile(filename, ios::app); //以追加的方式写入
 	ofile << Known::pars_wl["run_num"] << '\t' << Known::iter << '\t'
 		<< Known::runtime << '\t' << populations.size() << endl;
 	ofile << fin << endl;
@@ -22,7 +23,19 @@ void Fac::writesol()
 	ofile << endl;
 	ofile.close();
 
-	Known::pars_wl["ofn2"] += (Known::pars_wl["job_id"]+Known::pars_wl["al_name"] + Known::pars_wl["fn"]);
+	filename = Known::pars_wl["ofn"] + Known::pars_wl["job_id"] + Known::pars_wl["al_name"]+"popu_" + Known::pars_wl["fn"];
+	ofile.open(filename, ios::app); //以追加的方式写入
+	ofile << Known::pars_wl["run_num"] << '\t' << Known::iter << '\t'
+		<< Known::runtime << '\t' << populations.size() << endl;
+	ofile << fin << endl;
+	sort(populations.begin(), populations.end(), [](Individual &i1, Individual &i2) {return i1.tot_tardiness < i2.tot_tardiness; });
+	for (int i = 0; i < populations.size(); ++i)
+	{
+		ofile << populations[i].tot_tardiness << "  " << populations[i].tot_energy_cost << ", ";
+	}
+	ofile << endl;
+	ofile.close();
+	/*Known::pars_wl["ofn2"] += (Known::pars_wl["job_id"]+Known::pars_wl["al_name"] + Known::pars_wl["fn"]);
 	ofile.open(Known::pars_wl["ofn2"], ios::app); //以追加的方式写入
 	ofile << fin << "  ";
 	for (int i = 0; i < archive.size(); ++i)
@@ -30,7 +43,7 @@ void Fac::writesol()
 		ofile << archive[i].tot_tardiness << "  " << archive[i].tot_energy_cost << ", ";
 	}
 	ofile << endl;
-	ofile.close();
+	ofile.close();*/
 }
 
 void Fac::push_into_arch(Individual &sol)
@@ -587,6 +600,7 @@ void Fac::init_pops()
 		int rm = populations.size();
 		tmp_indi._init_indi(rm); //有策略的随机生成较优解
 		tmp_indi._update_sol(); //主动调度
+		//tmp_indi.print_sol_();
 		push_into_arch(tmp_indi);
 		populations.push_back(tmp_indi);
 	}
@@ -689,7 +703,7 @@ void Fac::GA(int &iter)
 	for (int p=0;p<populations.size();++p) 
 	{
 		//随机选一个个体跟当前粒子交叉
-		//srand(clock() + rand()%100 + p);
+		srand(clock() + rand()%100 + p);
 		cross2 = rand() % populations.size();
 		while (cross2 == p)
 		{
@@ -869,23 +883,27 @@ void Fac::find_opt()
 				push_into_arch(populations[p]);
 			}
 		}
+
+		//cout << "GA" << endl;
 		GA(Known::iter);
+		//cout << "NSGAII" << endl;
 		/*运用NSGAII生成新的种群*/
 		NSGAII();
 		++Known::iter;
 		Known::et = clock();
 		for (int i=0;i<populations.size();++i) 
 		{ 
+			//cout << populations[i].tot_tardiness << "  " << populations[i].tot_energy_cost << endl;
 			push_into_arch(populations[i]);
 		}
-		cout << "第" << Known::iter << "次迭代:" <<populations[0].tot_tardiness<<'\t'<<populations[0].tot_energy_cost <<endl;
+		//cout << "第" << Known::iter << "次迭代:" << endl;
 		
 		if (Known::iter % Known::disturb_its ==0) 
 		{
 			//添加扰动
 			for (int i=0;i<archive.size();++i) 
 			{
-				//srand(clock()+rand()%1000+i);
+				srand(clock()+rand()%1000+i);
 				int index = rand() % populations.size();
 				populations[index] = archive[i];
 			}

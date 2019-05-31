@@ -187,7 +187,7 @@ void Solution::print_sol()
 bool Solution::operator<(const Solution &sol) const
 {
 	if ((tot_tardiness < sol.tot_tardiness) && (tot_energy_cost <= sol.tot_energy_cost) ||
-		(tot_tardiness <= sol.tot_tardiness) && (tot_energy_cost < sol.tot_energy_cost)) return true;
+		(tot_tardiness < sol.tot_tardiness) && (tot_energy_cost < sol.tot_energy_cost)) return true;
 	return false;
 }
 /*重载==运算符*/
@@ -669,14 +669,14 @@ void Factory::control()
 void Factory::control_based_move()
 {
 	bool flag = false;
-	while (known.iter < known.genes/*((double)(known.et - known.st) / CLOCKS_PER_SEC) < known.itr_time*/)
+	while (((double)(known.et - known.st) / CLOCKS_PER_SEC) < known.itr_time)
 	{
 		int pi = 0;
 		for (auto &p : par_swarm)
 		{
 			//发散
 			p.update_position(pi);
-			cout << "变异后" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
+			//cout << "变异后" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
 			bool flag = is_into_archive(p.sol);
 			if (flag)
 			{
@@ -712,14 +712,13 @@ void Factory::control_based_move()
 			for (int ite = 0; ite <known.TS_iter; ++ite)
 			{
 				p.LS_bm2(pi);
-				cout << "搜索后：" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
+				//cout << "搜索后：" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
 				flag = is_into_archive(p.sol);
 				if (flag)
 				{
 					archive.push_back(p.sol);
 					Known::arch_et = clock();
 				}
-
 				if (p.sol < gbest)
 				{
 					gbest = p.sol;
@@ -750,19 +749,18 @@ void Factory::control_based_move()
 			
 		}
 		++known.iter;
-		
-		par_swarm[0].sol = gbest;
-		/*if (known.iter % known.disturb_its == 0)
+		//par_swarm[0].sol = gbest;
+		if (known.iter % known.disturb_its == 0)
 		{ //对粒子群进行扰动
-			for (int p = 0; p < known.pops; ++p)
+			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return s1.tot_tardiness < s2.tot_tardiness; });
+			for (int p = 0,a=0; p < known.pops &&a<archive.size(); ++p,++a)
 			{
-				int spo = known.myrand() % archive.size();
+				//int spo = rand() % archive.size();
 				//cout << spo <<endl;
-				par_swarm[p].sol = archive[spo];
+				par_swarm[p].sol = archive[a];
 			}
-			gbest = archive[known.myrand() % archive.size()];
-
-		}*/
+			//gbest = archive[rand() % archive.size()];
+		}
 		known.et = clock();
 		cout << known.iter << "  " << gbest.tot_tardiness << " " << gbest.tot_energy_cost << endl;
 	}
@@ -2029,7 +2027,7 @@ void Particle::LS_bm2(int & pos)
 void Particle::update_tbb(TabuOp & tbo, int & pos)
 {
 	int tbov = (tbo.mno * 10 + tbo.mv) * 100 + tbo.mpo;
-	known.tabuTable[pos][tbo.sno][tbo.jno][tbov] = known.iter+rand()%(Known::job_count*Known::stage_count);
+	known.tabuTable[pos][tbo.sno][tbo.jno][tbov] = known.iter+rand()%10;
 }
 
 

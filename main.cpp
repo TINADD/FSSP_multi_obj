@@ -7,20 +7,20 @@ int main(int argc, char*  argv[])
 	//srand(time(0));
 	//windows环境参数设置
 	wl["genes"] = "300";
-	wl["pops"] = "1"; //NSGAII默认100代
-	wl["TS_iter"] = "50";
-	wl["disturb_its"] = "1";
+	wl["pops"] = "50"; //NSGAII默认100代
+	wl["TS_iter"] = "5";
+	wl["disturb_its"] = "10";
 	wl["acp"] = "0.0";//接受互不支配解的概率
 	wl["acp1"] = "0.0";
 	wl["tb_acp"] = "0.0"; 
 	wl["tb_acp1"] = "0.0";
-	wl["w"] = "1.0"; //变异概率
-	wl["c1"] = "0.5";//跟pbest的交叉概率
-	wl["c2"] = "0.8";//跟gbest的交叉概率
+	wl["w"] = "0.0"; //变异概率
+	wl["c1"] = "0.0";//跟pbest的交叉概率
+	wl["c2"] = "0.0";//跟gbest的交叉概率
 	wl["al_name"] = "_HPSO_";//当前算法名称
 	wl["ifn"] = "./Instances/100_10_8_4_10_3.txt";
-	wl["ofn2"] = "./newsols/";  //用于matlab分析的解
-	wl["ofn"] = "./Solutions/";  //用于表格分析的解集合
+	wl["ofn2"] = "./sols_no_info/";  //用于matlab分析的解
+	wl["ofn"] = "./sols/";  //用于表格分析的解集合
 	wl["fn"] = "100_10_8_4_10_3.txt";
 	wl["run_num"] = "1"; //运行次数
 	wl["Pc"] = "0.1";  //操作变异概率

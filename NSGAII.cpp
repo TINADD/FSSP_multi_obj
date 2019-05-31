@@ -9,22 +9,10 @@ vector<Individual> Fac::Rt = vector<Individual>();//Rt = offSpring + populations
 void Fac::writesol()
 {
 	double fin = (double)(Known::arch_et - Known::st) / CLOCKS_PER_SEC;
-	Known::runtime = (double)(Known::et - Known::st) / CLOCKS_PER_SEC;
-	string filename = Known::pars_wl["ofn"] + Known::pars_wl["job_id"] + Known::pars_wl["al_name"]+"arch_" + Known::pars_wl["fn"];
-	ofstream ofile(filename, ios::app); //以追加的方式写入
-	ofile << Known::pars_wl["run_num"] << '\t' << Known::iter << '\t'
-		<< Known::runtime << '\t' << populations.size() << endl;
-	ofile << fin << endl;
-	sort(archive.begin(), archive.end(), [](Individual &i1, Individual &i2) {return i1.tot_tardiness < i2.tot_tardiness; });
-	for (int i = 0; i < archive.size(); ++i)
-	{
-		ofile << archive[i].tot_tardiness << "  " << archive[i].tot_energy_cost << ", ";
-	}
-	ofile << endl;
-	ofile.close();
+	Known::runtime = (double)(Known::et - Known::st) / CLOCKS_PER_SEC;	
 
-	filename = Known::pars_wl["ofn"] + Known::pars_wl["job_id"] + Known::pars_wl["al_name"]+"popu_" + Known::pars_wl["fn"];
-	ofile.open(filename, ios::app); //以追加的方式写入
+	string filename = Known::pars_wl["ofn"];
+	ofstream ofile(filename, ios::app); //以追加的方式写入
 	ofile << Known::pars_wl["run_num"] << '\t' << Known::iter << '\t'
 		<< Known::runtime << '\t' << populations.size() << endl;
 	ofile << fin << endl;
@@ -1256,9 +1244,9 @@ void Fac::start_down()
 	{
 		cout << i << ":		" << populations[i].tot_tardiness << "		" << populations[i].tot_energy_cost << endl;
 	}*/
-	cout << "final archive: " << endl;
+	//cout << "final archive: " << endl;
 	sort(archive.begin(), archive.end(), [](Individual &i1, Individual &i2) {return i1.tot_tardiness < i2.tot_tardiness; });
-	for (int i = 0; i < archive.size(); ++i)
+	/*for (int i = 0; i < archive.size(); ++i)
 	{
 		cout << i << ":		" << archive[i].tot_tardiness << "		" << archive[i].tot_energy_cost << endl;
         //输出工件的st&&et
@@ -1287,7 +1275,7 @@ void Fac::start_down()
 			cout << endl;
 		}
 	}
-
+	*/
 	cout << "...开始写文件..." << endl;
 	writesol();
 	cout << "--程序结束--" << endl;

@@ -17,10 +17,10 @@ int main(int argc, char*  argv[])
 	wl["w"] = "0.0"; //变异概率
 	wl["c1"] = "0.0";//跟pbest的交叉概率
 	wl["c2"] = "0.0";//跟gbest的交叉概率
-	wl["al_name"] = "_HPSO_";//当前算法名称
+	wl["al_name"] = "_NSGAII_";//当前算法名称
 	wl["ifn"] = "./Instances/100_10_8_4_10_3.txt";
-	wl["ofn2"] = "./sols_no_info/";  //用于matlab分析的解
-	wl["ofn"] = "./sols/";  //用于表格分析的解集合
+	wl["ofn2"] = "./sols_no_info/large/";  //用于matlab分析的解
+	wl["ofn"] = "./sols/large/";  //用于表格分析的解集合
 	wl["fn"] = "100_10_8_4_10_3.txt";
 	wl["run_num"] = "1"; //运行次数
 	wl["Pc"] = "0.1";  //操作变异概率

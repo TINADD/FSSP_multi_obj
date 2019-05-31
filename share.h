@@ -13,7 +13,6 @@
 #include<climits>
 #include<ctime>
 #include<cstdlib>
-#include<windows.h>
 using namespace std;
 
 class Known {
@@ -26,13 +25,7 @@ public:
 	static vector <vector <double>> bec;
 	static int iter;  //当前迭代次数
 	static unsigned long next; //随机种子
-	static LARGE_INTEGER s_t;
 
-	static LARGE_INTEGER e_t;
-
-	static LARGE_INTEGER CPU_hz;
-
-	static double interval;
 
 	static vector<pair<vector<bool>, vector<bool>>> hs_1;
 	static vector<pair<vector<bool>, vector<bool>>> hs_2;
@@ -60,8 +53,6 @@ public:
 	void write_head();
 	int myrand(void);
 	void mysrand(unsigned seed);
-	void begin();
-	void end();
 };
 //--操作类
 class Operation {

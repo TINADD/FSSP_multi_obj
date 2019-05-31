@@ -753,16 +753,16 @@ void Factory::control_based_move()
 		if (known.iter % known.disturb_its == 0)
 		{ //对粒子群进行扰动
 			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return s1.tot_tardiness < s2.tot_tardiness; });
-			for (int p = 0,a=0; p < known.pops &&a<archive.size(); ++p,++a)
+			for (int po = 0,a=0; po < known.pops &&a<archive.size(); ++po,++a)
 			{
 				//int spo = rand() % archive.size();
 				//cout << spo <<endl;
-				par_swarm[p].sol = archive[a];
+				par_swarm[po].sol = archive[a];
 			}
 			//gbest = archive[rand() % archive.size()];
 		}
 		known.et = clock();
-		cout << known.iter << "  " << gbest.tot_tardiness << " " << gbest.tot_energy_cost << endl;
+		//cout << known.iter << "  " << gbest.tot_tardiness << " " << gbest.tot_energy_cost << endl;
 	}
 }
 
@@ -2170,7 +2170,7 @@ void Factory::writesol()
 	ofile << endl;
 	ofile.close();
 	 
-	Known::pars_wl["ofn2"] += (Known::pars_wl["job_id"]+Known::pars_wl["al_name"] + Known::pars_wl["fn"]);
+	/*Known::pars_wl["ofn2"] += (Known::pars_wl["job_id"]+Known::pars_wl["al_name"] + Known::pars_wl["fn"]);
     ofile.open(Known::pars_wl["ofn2"], ios::app); //以追加的方式写入
 	ofile << fin << "  ";
 	for (int i = 0; i < archive.size(); ++i)
@@ -2178,5 +2178,5 @@ void Factory::writesol()
 		ofile << archive[i].tot_tardiness << "  " << archive[i].tot_energy_cost << ", ";
 	}
 	ofile << endl;
-	ofile.close();
+	ofile.close();*/
 }

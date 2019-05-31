@@ -1,5 +1,4 @@
 #include "share.h"
-#include<windows.h>
 map<string, string> Known::pars_wl;
 
 int Known::job_count = 0;
@@ -16,10 +15,7 @@ vector<vector<vector<map<int, int>>>> Known::tabuTable;
 double Known::runtime;
 double Known::itr_time;
 unsigned long Known::next = 1;
-LARGE_INTEGER Known::s_t;
-LARGE_INTEGER Known::e_t;
-LARGE_INTEGER Known::CPU_hz;
-double Known::interval;
+
 
 time_t Known::st;
 time_t Known::et;
@@ -193,17 +189,6 @@ void Known::mysrand(unsigned seed)
 	next = seed;
 }
 
-void Known::begin()
-{
-	QueryPerformanceFrequency(&CPU_hz);
-	QueryPerformanceCounter(&s_t);
-}
-
-void Known::end()
-{
-	QueryPerformanceCounter(&e_t);
-	interval = ((double)e_t.QuadPart - (double)s_t.QuadPart) / (double)CPU_hz.QuadPart;
-}
 
 Operation::Operation()
 {

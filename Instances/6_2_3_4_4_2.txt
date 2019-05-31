@@ -1,0 +1,13 @@
+number of jobs:	6
+number of stages:	2
+number of machines:	3
+baseline processing time:
+stage 1:	10	9	6	9	8	7	 
+stage 2:	9	9	8	7	7	8	 
+baseline energy consumption:
+stage 1:	1	8	4	1	1	6	 
+stage 2:	8	6	7	8	9	2	 
+due date:	10	16	11	17	10	9	
+processing speed:
+stage 1:	0	1	2	3	4	5	
+stage 2:	0	1					

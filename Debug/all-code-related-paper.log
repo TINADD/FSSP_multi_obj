@@ -1,0 +1,49 @@
+﻿  MOPSO.cpp
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(42): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(51): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(80): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(139): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(158): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(206): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(232): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(250): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(269): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(288): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(331): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(351): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(403): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(413): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(418): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(420): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(438): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(448): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(453): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(455): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(484): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(545): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(547): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(548): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(575): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(577): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(578): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(599): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(908): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(910): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(979): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1144): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1146): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1177): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1279): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1284): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1348): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1542): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1547): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1616): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1801): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1847): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1906): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1923): warning C4018: “<”: 有符号/无符号不匹配
+d:\毕设相关\final-version\all-code-related-paper\all-code-related-paper\mopso.cpp(1933): warning C4018: “<”: 有符号/无符号不匹配
+  main.cpp
+  正在生成代码...
+  all-code-related-paper.vcxproj -> D:\毕设相关\final-version\all-code-related-paper\Debug\all-code-related-paper.exe

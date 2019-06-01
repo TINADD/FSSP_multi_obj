@@ -2027,7 +2027,7 @@ void Particle::LS_bm2(int & pos)
 void Particle::update_tbb(TabuOp & tbo, int & pos)
 {
 	int tbov = (tbo.mno * 10 + tbo.mv) * 100 + tbo.mpo;
-	known.tabuTable[pos][tbo.sno][tbo.jno][tbov] = known.iter+rand()%10;
+	known.tabuTable[pos][tbo.sno][tbo.jno][tbov] = known.iter+rand()%50;
 }
 
 

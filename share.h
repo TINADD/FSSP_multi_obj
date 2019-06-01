@@ -51,8 +51,6 @@ public:
 	void read_file();
 	void print_file();
 	void write_head();
-	int myrand(void);
-	void mysrand(unsigned seed);
 };
 //--²Ù×÷Àà
 class Operation {

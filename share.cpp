@@ -167,28 +167,6 @@ void Known::write_head()
 	itr_time = stod(pars_wl["itr_time"]);
 }
 
-int Known::myrand(void)
-{
-	//next = next * 1103515245 + 12345;
-	//next = next * 10 + 12345;
-    //Known kno = Known();
-	//kno.end();
-	//next = rand() % 100;
-	//cout << Known::interval << endl;
-	//int seed = Known::interval*pow(10, 6);
-	//srand(clock()+rand()%100+rand()%10);
-	//int seed = ((rand() % 1000) * 10 + rand() % 10) * 100 + rand() % 100;
-	//srand(time(0)+ rand()%100 + rand()%10);
-	//srand(seed+clock());
-	//return((unsigned)(next / 65536) % 32768);
-	return rand();
-}
-
-void Known::mysrand(unsigned seed)
-{
-	next = seed;
-}
-
 
 Operation::Operation()
 {

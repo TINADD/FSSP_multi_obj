@@ -19,6 +19,7 @@ void Fac::writesol()
 	sort(populations.begin(), populations.end(), [](Individual &i1, Individual &i2) {return i1.tot_tardiness < i2.tot_tardiness; });
 	for (int i = 0; i < populations.size(); ++i)
 	{
+		cout << populations[i].check() << endl;
 		ofile << populations[i].tot_tardiness << "  " << populations[i].tot_energy_cost << ", ";
 	}
 	ofile << endl;
@@ -397,7 +398,6 @@ void Individual::local_search(int & pos)
 						}
 					}
 				}
-
 				for (int m2=0;m2<Known::machine_count;++m2) 
 				{
 					if (m2 == m) continue;
@@ -868,34 +868,12 @@ void Fac::find_opt()
 			for (int i = 0; i < Known::TS_iter; ++i)
 			{
 				populations[p].local_search(p);
-				push_into_arch(populations[p]);
 			}
 		}
-
-		//cout << "GA" << endl;
 		GA(Known::iter);
-		//cout << "NSGAII" << endl;
-		/*运用NSGAII生成新的种群*/
 		NSGAII();
 		++Known::iter;
-		Known::et = clock();
-		for (int i=0;i<populations.size();++i) 
-		{ 
-			//cout << populations[i].tot_tardiness << "  " << populations[i].tot_energy_cost << endl;
-			push_into_arch(populations[i]);
-		}
-		//cout << "第" << Known::iter << "次迭代:" << endl;
-		
-		if (Known::iter % Known::disturb_its ==0) 
-		{
-			//添加扰动
-			for (int i=0;i<archive.size();++i) 
-			{
-				srand(clock()+rand()%1000+i);
-				int index = rand() % populations.size();
-				populations[index] = archive[i];
-			}
-		}
+		Known::et = clock(); 
 	}
 }
 

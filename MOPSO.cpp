@@ -32,6 +32,7 @@ Solution::Solution()
 	sol_1 = vector<vector<ele>>(known.stage_count, vector<ele>(known.machine_count));
 	tot_tardiness = 0;
 	tot_energy_cost = 0.;
+	crowd_dis = 0.;
 }
 
 //生成初始解--基于策略
@@ -522,15 +523,14 @@ void Particle::update_position(int &in)//当前粒子在群体中的位置
 				}
 			}
 		}
+		sol.update_sol();
+
+		flag = fac.is_into_archive(sol);
+		if (flag) fac.archive.push_back(sol);
 	}
-	sol.update_sol();
-
-	flag = fac.is_into_archive(sol);
-	if (flag) fac.archive.push_back(sol);
-
-	srand(clock() + rand() % 10000 + in);
-	w_ = (rand() % 10000)*0.0001;
-	if (w_ < known.c1)
+	/*srand(clock() + rand() % 10000 + in);
+	w_ = (rand() % 10000)*0.0001;*/
+	else if (w_ < known.c1)
 	{
 		//随机选一个粒子的pbest进行交叉
 		newp = rand() % known.pops;
@@ -565,9 +565,9 @@ void Particle::update_position(int &in)//当前粒子在群体中的位置
 		if (flag) fac.archive.push_back(sol);
 	}
 
-	srand(clock() + rand() % 10000 + in);
-	w_ = (rand() % 10000)*0.0001;
-	if (w_ < known.c2)
+	/*srand(clock() + rand() % 10000 + in);
+	w_ = (rand() % 10000)*0.0001;*/
+	else
 	{
 		vector<double> ras(known.job_count);
 		temp_sol = vector<vector<ele>>(known.stage_count, vector<ele>(known.machine_count));
@@ -669,45 +669,12 @@ void Factory::control()
 void Factory::control_based_move()
 {
 	bool flag = false;
+	int pre_up_iter = 0; //记录gbest上次更新时的代数
 	while (((double)(known.et - known.st) / CLOCKS_PER_SEC) < known.itr_time)
 	{
 		int pi = 0;
 		for (auto &p : par_swarm)
 		{
-			//发散
-			p.update_position(pi);
-			//cout << "变异后" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
-			bool flag = is_into_archive(p.sol);
-			if (flag)
-			{
-				archive.push_back(p.sol);
-				Known::arch_et = clock();
-			}
-			if (p.sol < gbest)
-			{
-				gbest = p.sol;
-			}
-			else if (p.sol.tot_tardiness < gbest.tot_tardiness)
-			{
-				gbest = p.sol;
-			}
-			else if (p.sol.tot_energy_cost < gbest.tot_energy_cost)
-			{
-				//以一定概率更新，（多大概率呢？暂定0.5）
-				if ((rand() % 1000) * 0.001 < 0.0)
-					gbest = p.sol;
-			}
-			if (p.sol < p.pbest)
-			{
-				p.pbest = p.sol;
-			}
-			else if (p.sol.tot_tardiness < p.pbest.tot_tardiness)
-				p.pbest = p.sol;
-			else if (p.sol.tot_energy_cost < p.pbest.tot_energy_cost)
-			{
-				if ((rand() % 100) * 0.01 < 0.0)
-					p.pbest = p.sol;
-			}
 			//先向tot_atrdiness收敛
 			for (int ite = 0; ite <known.TS_iter; ++ite)
 			{
@@ -722,6 +689,7 @@ void Factory::control_based_move()
 				if (p.sol < gbest)
 				{
 					gbest = p.sol;
+					pre_up_iter = Known::iter;
 				}
 				else if (p.sol.tot_tardiness < gbest.tot_tardiness)
 				{
@@ -745,63 +713,11 @@ void Factory::control_based_move()
 						p.pbest = p.sol;
 				}
 			}
-			++pi;
-			
-		}
-		++known.iter;
-		//par_swarm[0].sol = gbest;
-		if (known.iter % known.disturb_its == 0)
-		{ //对粒子群进行扰动
-			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return s1.tot_tardiness < s2.tot_tardiness; });
-			for (int po = 0,a=0; po < known.pops &&a<archive.size(); ++po,++a)
-			{
-				//int spo = rand() % archive.size();
-				//cout << spo <<endl;
-				par_swarm[po].sol = archive[a];
-			}
-			//gbest = archive[rand() % archive.size()];
-		}
-		known.et = clock();
-		//cout << known.iter << "  " << gbest.tot_tardiness << " " << gbest.tot_energy_cost << endl;
-	}
-}
-
-void Factory::control_ls()
-{
-	bool flag = false;
-	while ((known.et - known.st) / CLOCKS_PER_SEC < Known::itr_time)
-	{
-		int pi = 0;
-		for (auto &p : par_swarm)
-		{
 			//发散
-			p.update_position(pi);
-			bool flag = is_into_archive(p.sol);
-			if (flag)
+			for (auto &p : par_swarm)
 			{
-				archive.push_back(p.sol);
-				Known::arch_et = clock();
-			}
-			if (p.sol < gbest)
-			{
-				gbest = p.sol;
-			}
-			else if (p.sol.tot_tardiness < gbest.tot_tardiness)
-			{
-				gbest = p.sol;
-			}
-			if (p.sol.tot_tardiness <= p.pbest.tot_tardiness)
-				p.pbest = p.sol;
-			else if (p.sol.tot_energy_cost < p.pbest.tot_energy_cost)
-			{
-				if ((rand() % 1000) * 0.001 < 0.05)
-					p.pbest = p.sol;
-			}
-			
-			//先向tot_atrdiness收敛
-			for (int ite = 0; ite < known.TS_iter; ++ite)
-			{
-				p.local_search();
+				p.update_position(pi);
+				//cout << "变异后" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
 				bool flag = is_into_archive(p.sol);
 				if (flag)
 				{
@@ -811,34 +727,174 @@ void Factory::control_ls()
 				if (p.sol < gbest)
 				{
 					gbest = p.sol;
+					pre_up_iter = Known::iter;
 				}
 				else if (p.sol.tot_tardiness < gbest.tot_tardiness)
 				{
 					gbest = p.sol;
 				}
-				if (p.sol.tot_tardiness <= p.pbest.tot_tardiness)
+				else if (p.sol.tot_energy_cost < gbest.tot_energy_cost)
+				{
+					//以一定概率更新，（多大概率呢？暂定0.5）
+					if ((rand() % 1000) * 0.001 < 0.0)
+						gbest = p.sol;
+				}
+				if (p.sol < p.pbest)
+				{
+					p.pbest = p.sol;
+				}
+				else if (p.sol.tot_tardiness < p.pbest.tot_tardiness)
 					p.pbest = p.sol;
 				else if (p.sol.tot_energy_cost < p.pbest.tot_energy_cost)
 				{
-					if ((rand() % 1000) * 0.001 < 0.05)
+					if ((rand() % 100) * 0.01 < 0.0)
 						p.pbest = p.sol;
 				}
+
+			}
+			//对粒子群进行扰动
+			//根据拥挤距离排序
+			int asize = archive.size();
+			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return  s1.tot_tardiness < s2.tot_tardiness; });
+			archive[0].crowd_dis = archive[asize - 1].crowd_dis = INT_MAX;
+			for (int a = 1; a < archive.size() - 1; ++a)
+			{
+				archive[a].crowd_dis += (double)(archive[a + 1].tot_tardiness - archive[a - 1].tot_tardiness) / (double)(archive[asize - 1].tot_tardiness - archive[0].tot_tardiness);
+			}
+			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return  s1.tot_energy_cost < s2.tot_energy_cost; });
+			archive[0].crowd_dis = archive[asize - 1].crowd_dis = INT_MAX;
+			for (int a = 1; a < archive.size() - 1; ++a)
+			{
+				archive[a].crowd_dis += (double)(archive[a + 1].tot_energy_cost - archive[a - 1].tot_energy_cost) / (double)(archive[asize - 1].tot_energy_cost - archive[0].tot_energy_cost);
+			}
+			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return  s1.crowd_dis < s2.crowd_dis; });
+			for (int po = 0, a = 0; po < known.pops &&a < archive.size(); ++po, ++a)
+			{
+				//int spo = rand() % archive.size();
+				//cout << spo <<endl;
+				par_swarm[po].sol = archive[a];
 			}
 			++pi;
 		}
 		++known.iter;
-		gbest = archive[rand() % archive.size()];
-		if (known.iter % stoi(known.pars_wl["disturb_its"]) == 0)
-		{
-			for (int p = 0; p < stoi(known.pars_wl["pops"]); ++p)
-			{
-				int spo = rand() % archive.size();
-				par_swarm[p].sol = archive[spo];
-			}
-		}
 		known.et = clock();
-		cout << known.iter << "  " << gbest.tot_tardiness << " " << gbest.tot_energy_cost << endl;
-		
+		//cout << known.iter << "  " << gbest.tot_tardiness << " " << gbest.tot_energy_cost << endl;
+	}
+}
+
+void Factory::control_ls()
+{
+	bool flag = false;
+	int pre_up_iter = 0; //记录gbest上次更新时的代数
+	while (((double)(known.et - known.st) / CLOCKS_PER_SEC) < known.itr_time)
+	{
+		int pi = 0;
+		for (auto &p : par_swarm)
+		{
+			//先向tot_atrdiness收敛
+			for (int ite = 0; ite < known.TS_iter; ++ite)
+			{
+				p.local_search();
+				//cout << "搜索后：" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
+				flag = is_into_archive(p.sol);
+				if (flag)
+				{
+					archive.push_back(p.sol);
+					Known::arch_et = clock();
+				}
+				if (p.sol < gbest)
+				{
+					gbest = p.sol;
+					pre_up_iter = Known::iter;
+				}
+				else if (p.sol.tot_tardiness < gbest.tot_tardiness)
+				{
+					gbest = p.sol;
+				}
+				else if (p.sol.tot_energy_cost < gbest.tot_energy_cost)
+				{
+					//以一定概率更新，（多大概率呢？暂定0.5）
+					if ((rand() % 1000) * 0.0001 < 0.0)
+						gbest = p.sol;
+				}
+				if (p.sol < p.pbest)
+				{
+					p.pbest = p.sol;
+				}
+				else if (p.sol.tot_tardiness < p.pbest.tot_tardiness)
+					p.pbest = p.sol;
+				else if (p.sol.tot_energy_cost < p.pbest.tot_energy_cost)
+				{
+					if ((rand() % 1000) * 0.001 < 0.00)
+						p.pbest = p.sol;
+				}
+			}
+			//发散
+			for (auto &p : par_swarm)
+			{
+				p.update_position(pi);
+				//cout << "变异后" << p.sol.tot_tardiness << ' ' << p.sol.tot_energy_cost << endl;
+				bool flag = is_into_archive(p.sol);
+				if (flag)
+				{
+					archive.push_back(p.sol);
+					Known::arch_et = clock();
+				}
+				if (p.sol < gbest)
+				{
+					gbest = p.sol;
+					pre_up_iter = Known::iter;
+				}
+				else if (p.sol.tot_tardiness < gbest.tot_tardiness)
+				{
+					gbest = p.sol;
+				}
+				else if (p.sol.tot_energy_cost < gbest.tot_energy_cost)
+				{
+					//以一定概率更新，（多大概率呢？暂定0.5）
+					if ((rand() % 1000) * 0.001 < 0.0)
+						gbest = p.sol;
+				}
+				if (p.sol < p.pbest)
+				{
+					p.pbest = p.sol;
+				}
+				else if (p.sol.tot_tardiness < p.pbest.tot_tardiness)
+					p.pbest = p.sol;
+				else if (p.sol.tot_energy_cost < p.pbest.tot_energy_cost)
+				{
+					if ((rand() % 100) * 0.01 < 0.0)
+						p.pbest = p.sol;
+				}
+
+			}
+			//对粒子群进行扰动
+			//根据拥挤距离排序
+			int asize = archive.size();
+			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return  s1.tot_tardiness < s2.tot_tardiness; });
+			archive[0].crowd_dis = archive[asize - 1].crowd_dis = INT_MAX;
+			for (int a = 1; a < archive.size() - 1; ++a)
+			{
+				archive[a].crowd_dis += (double)(archive[a + 1].tot_tardiness - archive[a - 1].tot_tardiness) / (double)(archive[asize - 1].tot_tardiness - archive[0].tot_tardiness);
+			}
+			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return  s1.tot_energy_cost < s2.tot_energy_cost; });
+			archive[0].crowd_dis = archive[asize - 1].crowd_dis = INT_MAX;
+			for (int a = 1; a < archive.size() - 1; ++a)
+			{
+				archive[a].crowd_dis += (double)(archive[a + 1].tot_energy_cost - archive[a - 1].tot_energy_cost) / (double)(archive[asize - 1].tot_energy_cost - archive[0].tot_energy_cost);
+			}
+			sort(archive.begin(), archive.end(), [](Solution &s1, Solution &s2) {return  s1.crowd_dis < s2.crowd_dis; });
+			for (int po = 0, a = 0; po < known.pops &&a < archive.size(); ++po, ++a)
+			{
+				//int spo = rand() % archive.size();
+				//cout << spo <<endl;
+				par_swarm[po].sol = archive[a];
+			}
+			++pi;
+		}
+		++known.iter;
+		known.et = clock();
+		//cout << known.iter << "  " << gbest.tot_tardiness << " " << gbest.tot_energy_cost << endl;
 	}
 }
 
@@ -2027,7 +2083,7 @@ void Particle::LS_bm2(int & pos)
 void Particle::update_tbb(TabuOp & tbo, int & pos)
 {
 	int tbov = (tbo.mno * 10 + tbo.mv) * 100 + tbo.mpo;
-	known.tabuTable[pos][tbo.sno][tbo.jno][tbov] = known.iter+rand()%50;
+	known.tabuTable[pos][tbo.sno][tbo.jno][tbov] = known.iter+rand()%10;
 }
 
 

@@ -2,3 +2,5 @@ Pc:0.1	Pm:0.1	TS_iter:5	acp:0.0	acp1:0.0	al_name:_NSGAII_	c1:0.0	c2:0.0	disturb_
 run_num   	iter	run_time	num_archive
 Pc:0.1	Pm:0.1	TS_iter:5	acp:0.0	acp1:0.0	al_name:_NSGAII_	c1:0.0	c2:0.0	disturb_its:10	fn:100_10_8_4_10_3.txt	genes:300	ifn:./Instances/100_10_8_4_10_3.txt	itr_time:3600	job_id:	ofn:./sols/large/_NSGAII_100_10_8_4_10_3.txt	ofn2:./sols_no_info/large/	pops:50	run_num:1	tb_acp:0.0	tb_acp1:0.0	w:0.0	
 run_num   	iter	run_time	num_archive
+Pc:0.1	Pm:0.1	TS_iter:5	acp:0.0	acp1:0.0	al_name:_NSGAII_	c1:0.0	c2:0.0	disturb_its:10	fn:100_10_8_4_10_3.txt	genes:300	ifn:./Instances/100_10_8_4_10_3.txt	itr_time:3600	job_id:	ofn:./sols/large/_NSGAII_100_10_8_4_10_3.txt	ofn2:./sols_no_info/large/	pops:50	run_num:1	tb_acp:0.0	tb_acp1:0.0	w:0.0	
+run_num   	iter	run_time	num_archive

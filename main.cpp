@@ -8,16 +8,16 @@ int main(int argc, char*  argv[])
 	//windows环境参数设置
 	wl["genes"] = "300";
 	wl["pops"] = "50"; //NSGAII默认100代
-	wl["TS_iter"] = "5";
-	wl["disturb_its"] = "10";
-	wl["acp"] = "0.0";//接受互不支配解的概率
-	wl["acp1"] = "0.0";
-	wl["tb_acp"] = "0.0"; 
-	wl["tb_acp1"] = "0.0";
-	wl["w"] = "0.0"; //变异概率
-	wl["c1"] = "0.0";//跟pbest的交叉概率
-	wl["c2"] = "0.0";//跟gbest的交叉概率
-	wl["al_name"] = "_NSGAII_";//当前算法名称
+	wl["TS_iter"] = "2";
+	wl["disturb_its"] = "2";
+	wl["acp"] = "0.";//接受互不支配解的概率
+	wl["acp1"] = "0.";
+	wl["tb_acp"] = "0."; 
+	wl["tb_acp1"] = "0.";
+	wl["w"] = "0.3"; //变异概率
+	wl["c1"] = "0.6";//跟pbest的交叉概率
+	wl["c2"] = "0.75";//跟gbest的交叉概率
+	wl["al_name"] = "_HPSOII_";//当前算法名称
 	wl["ifn"] = "./Instances/100_10_8_4_10_3.txt";
 	wl["ofn2"] = "./sols_no_info/large/";  //用于matlab分析的解
 	wl["ofn"] = "./sols/large/";  //用于表格分析的解集合

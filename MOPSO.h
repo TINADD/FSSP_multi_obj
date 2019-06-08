@@ -18,8 +18,7 @@ public:
 
 	int tot_tardiness;//目标函数1:总延迟
 	double tot_energy_cost;//目标函数2:总的能耗成本
-	int crowd_dis;//拥挤度
-
+	double crowd_dis;//拥挤度
 	Solution();
 	int generate_sol_(int rm); //随机生成一个解
 	int generate_sol(int rm); //有策略的生成一个解
